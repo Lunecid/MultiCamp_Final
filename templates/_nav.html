@@ -1,10 +1,10 @@
 
 
-
-
-<nav class="navbar bg-success fixed-top text-white">
+<nav class="navbar navbar-dark fixed-top bg-success text-white">
   <div class="container-fluid">
-      <a class="navbar-brand text-white" href="{% url 'app1:index' %}">KickKick Park</a>
+      <a class="navbar-brand text-white" href="{% url 'app1:index' %}">
+        <img src="{{ MEDIA_URL }}/media/images/tema/image.png" alt="" width="110" height="60">
+      </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
       </button>
@@ -43,3 +43,4 @@
       </div>
   </div>
 </nav>
+
