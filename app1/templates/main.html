@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<div id="imageContainer" style="display: flex; flex-direction: column; align-items: center;">
+    <img id="image" src="{{ MEDIA_URL }}/media/images/tema/Main.png" alt="" style="width: 100%; transition: opacity 1s;">
+</div>
+
+<script>
+    const imageContainer = document.getElementById('imageContainer');
+    const image = document.getElementById('image');
+    const imagePaths = [
+        "{{ MEDIA_URL }}/media/images/tema/Rider.png"
+    ];
+    let currentImageIndex = 0;
+
+    function changeImage() {
+        image.style.opacity = 0; // 이미지를 투명하게 만듭니다.
+
+        setTimeout(() => {
+            image.src = imagePaths[currentImageIndex];
+            image.style.opacity = 1; // 이미지를 다시 보이게 만듭니다.
+
+            if (currentImageIndex === 1) {
+                // 두 번째 이미지를 보여준 후에 이미지 변경을 멈춥니다.
+                return;
+            }
+
+            currentImageIndex = (currentImageIndex + 1) % imagePaths.length;
+        }, 1000); // 1초 후에 이미지를 변경합니다.
+    }
+
+    // 초기 로딩 후에 3초를 기다린 다음 이미지 변경 시작
+    setTimeout(() => {
+        changeImage();
+    }, 3000);
+</script>
+
+
+
+
+
+
+{% endblock %}

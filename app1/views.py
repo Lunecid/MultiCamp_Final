@@ -3,6 +3,9 @@ from .forms import ImageUploadForm
 from .models import UploadFile,Score
 from django.contrib.auth.decorators import login_required
 
+def main(request):
+    return render(request, 'main.html')
+
 
 # Create your views here.
 @login_required(login_url='accounts:login')

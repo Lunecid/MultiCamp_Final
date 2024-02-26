@@ -1,46 +1,65 @@
-
-
-<nav class="navbar navbar-dark fixed-top bg-success text-white">
+<nav class="navbar navbar-dark fixed-top" style="background-color: #79e5c7;">
   <div class="container-fluid">
       <a class="navbar-brand text-white" href="{% url 'app1:index' %}">
-        <img src="{{ MEDIA_URL }}/media/images/tema/image.png" alt="" width="110" height="60">
+          <img src="{{ MEDIA_URL }}/media/images/tema/image.png" alt="" width="110" height="60">
       </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+          aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-          <div class="offcanvas-header  bg-success">
+      <div class="offcanvas offcanvas-end d-flex flex-column" tabindex="-1" id="offcanvasNavbar"
+          aria-labelledby="offcanvasNavbarLabel">
+          <div class="offcanvas-header" style="background-color: #79e5c7;">
               <h5 class="offcanvas-title text-white" id="offcanvasNavbarLabel">Menu</h5>
-              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close" data-bs-target="#bdNavbar"></button>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+                  aria-label="Close" data-bs-target="#bdNavbar"></button>
           </div>
-          <hr class="d-none bg-success ">
-          <div class="offcanvas-body  bg-success bg-opacity-75">
-            <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
-                <li class="nav-item">
-                    <a class="nav-link active text-white" aria-current="page" href="{% url 'app1:index' %}">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="{% url 'ranking:ranking' %}">Ranking</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="{% url 'map:index'  %}">Map</a>
-                </li>
-                {% if user.is_authenticated %}
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="{% url 'accounts:logout' %}">Logout</a>
-                </li>
-                <a class="nav-link disabled special-color " style="color: #000000;"> <strong>{{ user }}</strong>님</a>
-                {% else %}
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="{% url 'accounts:login' %}">Login</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="{% url 'accounts:signup' %}">Signup</a>
-                </li>
-                {% endif %}
-            </ul>
-        </div>        
+          <hr class="d-none">
+          <div class="offcanvas-body" style="background-color: #fdfcfbed;">
+              <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
+                  <li class="nav-item d-flex align-items-center">
+                      <span style="margin-right: 5px;">
+                          <img src="{{ MEDIA_URL }}/media/images/icon1.png" alt="" width="20" height="20">
+                      </span>
+                      <a class="nav-link active" aria-current="page" style="color: #000000;"
+                          href="{% url 'app1:index' %}">Home</a>
+                  </li>
+                  <li class="nav-item d-flex align-items-center">
+                      <span style="margin-right: 5px;">
+                          <img src="{{ MEDIA_URL }}/media/images/icon2.png" alt="" width="20" height="20">
+                      </span>
+                      <a class="nav-link" style="color: #000000;" href="{% url 'ranking:ranking' %}">Ranking</a>
+                  </li>
+                  <li class="nav-item d-flex align-items-center">
+                      <span style="margin-right: 5px;">
+                          <img src="{{ MEDIA_URL }}/media/images/icon3.png" alt="" width="20" height="20">
+                      </span>
+                      <a class="nav-link" style="color: #000000;" href="{% url 'map:index' %}">Map</a>
+                  </li>
+                  {% if user.is_authenticated %}
+                  <li class="nav-item d-flex align-items-center">
+                    <span style="margin-right: 5px;">
+                      <img src="{{ MEDIA_URL }}/media/images/icon3.png" alt="" width="20" height="20">
+                    </span>
+                      <a class="nav-link" style="color: #000000;" href="{% url 'accounts:logout' %}">Logout</a>
+                  </li>
+                  <a class="nav-link disabled special-color" style="color: #000000;"> <strong>{{ user }}</strong>님</a>
+                  {% else %}
+                  <li class="nav-item d-flex align-items-center">
+                    <span style="margin-right: 5px;">
+                      <img src="{{ MEDIA_URL }}/media/images/icon3.png" alt="" width="20" height="20">
+                    </span>
+                      <a class="nav-link" style="color: #000000;" href="{% url 'accounts:login' %}">Login</a>
+                  </li>
+                  <li class="nav-item d-flex align-items-center">
+                    <span style="margin-right: 5px;">
+                      <img src="{{ MEDIA_URL }}/media/images/icon3.png" alt="" width="20" height="20">
+                    </span>
+                      <a class="nav-link" style="color: #000000;" href="{% url 'accounts:signup' %}">Signup</a>
+                  </li>
+                  {% endif %}
+              </ul>
+          </div>
       </div>
   </div>
 </nav>
-
