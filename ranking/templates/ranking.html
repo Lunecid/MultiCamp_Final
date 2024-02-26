@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block body %}
+
+
+<h2>랭킹 페이지</h2>
+<div class="ranking-container">
+    {% for score in scores %}
+    <div class="card mt-3">
+        <div class="row">
+            <div class="col">
+                <div class="rank">{{ forloop.counter }}위</div>
+            </div>
+            <div class="col">
+                <div class="username">{{ score.user.username }}</div>
+            </div>
+            <div class="col">
+                <div class="points">{{ score.points }} 점</div>
+            </div>
+        </div>
+    </div>
+    
+
+
+<style>
+    .card {
+        border: 0.5px solid darkblue;
+        height: 80px;
+        
+        
+    }
+</style>
+
+    {% endfor %}
+</div>
+{% endblock %}

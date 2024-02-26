@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+
 {% block body %}
     <br>
     <br>
@@ -21,6 +22,12 @@
 
         <!-- 사용자가 클릭할 버튼 -->
         <button id="upload-button">반납하기</button>
+        <form action="{% url 'app1:addscore' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" style="background-color: blue; color: white;">점수 추가</button>
+        </form>
+        <p style="font-size: 24px;">당신의 점수: {{ points }}점</p>
+
 
         <script type="text/javascript">
             // 버튼 클릭 시 숨겨진 파일 입력 필드를 트리거합니다.

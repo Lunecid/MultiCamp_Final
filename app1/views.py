@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import ImageUploadForm
-from .models import UploadFile
+from .models import UploadFile,Score
 from django.contrib.auth.decorators import login_required
 
 
@@ -25,3 +25,20 @@ def image_upload(request):
     return render(request, 'index.html', {'form': form})
 
 
+@login_required
+def add_score(request):
+    score, created = Score.objects.get_or_create(user=request.user)
+    score.points += 5
+    score.save()
+    return redirect('app1:index')  # 점수 추가 후 리다이렉트할 페이지의 이름
+
+@login_required(login_url='accounts:login')
+def home(request):
+    # 사용자의 점수 조회
+    try:
+        score = Score.objects.get(user=request.user).points
+    except Score.DoesNotExist:
+        score = 0  # Score 객체가 없는 경우 점수를 0으로 설정
+
+    # 점수를 컨텍스트에 추가하여 템플릿으로 전달
+    return render(request, 'index.html', { 'points': score})

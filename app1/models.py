@@ -8,6 +8,7 @@ import os
 from django.utils.timezone import now
 # pip install django-resized
 from django_resized import ResizedImageField
+from django.conf import settings
 
 
 def upload_to(instance, filename):
@@ -55,3 +56,12 @@ class UploadFile(models.Model):
         if self.image:
             self.image = rotate_image(self.image)
         super(UploadFile, self).save(*args, **kwargs)
+
+
+class Score(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    points = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f"{self.user.username}: {self.points} points"
+
