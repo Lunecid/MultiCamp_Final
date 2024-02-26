@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+    <h1>분석 결과</h1>
+    {% for result in results %}
+        <div>
+            <p>클래스: {{ result.class }}</p>
+            <p>확률: {{ result.confidence }}</p>
+        </div>
+    {% endfor %}
+{% endblock %}
