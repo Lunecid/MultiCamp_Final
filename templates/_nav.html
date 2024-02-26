@@ -29,7 +29,7 @@
                 <li class="nav-item">
                     <a class="nav-link text-white" href="{% url 'accounts:logout' %}">Logout</a>
                 </li>
-                <a class="nav-link disabled special-color " style="color: #000000; font-weight: bold;">{{ user }}</a>
+                <a class="nav-link disabled special-color " style="color: #000000;"> <strong>{{ user }}</strong>님</a>
                 {% else %}
                 <li class="nav-item">
                     <a class="nav-link text-white" href="{% url 'accounts:login' %}">Login</a>
