@@ -1,44 +1,87 @@
-
-
 {% block body %}
 
-<div id="imageContainer" style="display: flex; flex-direction: column; align-items: center;">
+<style>
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        min-height: 100vh;
+        margin: 0;
+        padding-bottom: 50px; /* 페이지 제일 하단과의 여백 설정 */
+        box-sizing: border-box;
+    }
+
+    #imageContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        margin-bottom: 90px; /* 이미지와 버튼 사이의 여백 설정 */
+    }
+
+    #visitButton {
+        display: none;
+        padding: 4% 6%; /* 버튼의 크기를 페이지의 2% x 5%로 지정 */
+        font-size: 1.2em; /* 글자 크기를 1.5em으로 지정 */
+        cursor: pointer;
+        background-color: #4dc1b7; /* 민트색 톤의 배경색 */
+        color: #fff; /* 흰색 글자색 */
+        border: none; /* 테두리 없애기 */
+        border-radius: 8px; /* 버튼을 둥글게 만들기 */
+        white-space: nowrap; /* 글자가 한 줄로 나오도록 설정 */
+        min-width: 300px; /* 최소 크기 설정 */
+        max-width: 900px; /* 최대 가로 너비 설정 */
+        width: 100%; /* 버튼이 부모 요소의 100%를 차지하도록 설정 */
+        min-height: 50px; /* 최소 세로 높이 설정 */
+        max-height: 80px; /* 최대 세로 높이 설정 */
+    }
+    @media (max-width: 768px) {
+        #visitButton {
+            padding: 3% 7%; /* 페이지의 너비가 768px 이하일 때 버튼 크기 조정 */
+            font-size: 1.2em; /* 페이지의 너비가 768px 이하일 때 글자 크기 조정 */
+            min-width: 200px;
+        }
+</style>
+
+<div id="imageContainer">
     <img id="image" src="{{ MEDIA_URL }}/media/images/tema/Main.png" alt="" style="width: 100%; transition: opacity 1s;">
+</div>
+<div>
+    <button id="visitButton" onclick="redirectToHomepage()"><strong>킥킥파크에 주차하기</strong></button>
 </div>
 
 <script>
     const imageContainer = document.getElementById('imageContainer');
     const image = document.getElementById('image');
+    const visitButton = document.getElementById('visitButton');
     const imagePaths = [
         "{{ MEDIA_URL }}/media/images/tema/Rider.png"
     ];
     let currentImageIndex = 0;
 
     function changeImage() {
-        image.style.opacity = 0; // 이미지를 투명하게 만듭니다.
+        image.style.opacity = 0;
 
         setTimeout(() => {
             image.src = imagePaths[currentImageIndex];
-            image.style.opacity = 1; // 이미지를 다시 보이게 만듭니다.
+            image.style.opacity = 1;
 
-            if (currentImageIndex === 1) {
-                // 두 번째 이미지를 보여준 후에 이미지 변경을 멈춥니다.
-                return;
+            if (currentImageIndex === 0) {
+                visitButton.style.display = 'block';
             }
 
-            currentImageIndex = (currentImageIndex + 1) % imagePaths.length;
-        }, 1000); // 1초 후에 이미지를 변경합니다.
+            currentImageIndex = 1;
+        }, 1000);
     }
 
-    // 초기 로딩 후에 3초를 기다린 다음 이미지 변경 시작
+    function redirectToHomepage() {
+        window.location.href = "{% url 'app1:index' %}";
+    }
+
     setTimeout(() => {
         changeImage();
     }, 3000);
 </script>
-
-
-
-
-
 
 {% endblock %}
