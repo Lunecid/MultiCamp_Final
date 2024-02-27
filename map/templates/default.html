@@ -6,6 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
     <meta charset="UTF-8">
     <title>Map</title>
 </head>
@@ -13,6 +14,8 @@
 <body>
 
     <style>
+        @import url(https://fonts.googleapis.com/css?family=Oswald);
+
         #map-container {
             width: 100%;
             height: 80vh;
@@ -31,13 +34,41 @@
             min-height: 300px; /* 최소 높이 설정 */
             width: 90%; /* 예시로 설정한 너비 */
             height: 80%;
-            border: solid 5px;
+            border: solid 2px;
             border-color: #4dc1b7;
         }
+        h1.Name { position: relative; }
+
+        h1.Name:before,
+        h1.Name:after {
+            content: '[';
+            display: inline-block;
+            position: relative;
+            top: 1px;
+            height: 100%;
+            font-size: 1.25em;
+            color: #4dc1b7;
+            
+            transition: all 0.5s ease;
+        }
+
+        h1.Name:after { content: ']'; }
+
+        h1.Name:hover:before { 
+            transform: translateX(-5px);
+        }
+
+        h1.Name:hover:after { 
+            transform: translateX(5px);
+        }
+
+        h1.Name {
+            font-family: "Oswald", sans-serif;
+        };
     </style>
     <br>
     <br>
-    <h1 style="text-align: center;">Map View</h1>
+    <h1 class="Name" style="text-align: center;"><span>Map View</span></h1>
     
     <div id="map-container">
         <div id="map"></div>
