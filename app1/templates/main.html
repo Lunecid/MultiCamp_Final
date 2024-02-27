@@ -8,8 +8,9 @@
         justify-content: flex-start;
         min-height: 100vh;
         margin: 0;
-        padding-bottom: 50px; /* 페이지 제일 하단과의 여백 설정 */
+        padding-bottom: 40px; /* 페이지 제일 하단과의 여백 설정 */
         box-sizing: border-box;
+        position: relative; /* 부모 요소에 relative 위치 설정 */
     }
 
     #imageContainer {
@@ -22,7 +23,7 @@
 
     #visitButton {
         display: none;
-        padding: 4% 6%; /* 버튼의 크기를 페이지의 2% x 5%로 지정 */
+        padding: 4% 5%; /* 버튼의 크기를 페이지의 2% x 5%로 지정 */
         font-size: 1.2em; /* 글자 크기를 1.5em으로 지정 */
         cursor: pointer;
         background-color: #4dc1b7; /* 민트색 톤의 배경색 */
@@ -31,30 +32,65 @@
         border-radius: 8px; /* 버튼을 둥글게 만들기 */
         white-space: nowrap; /* 글자가 한 줄로 나오도록 설정 */
         min-width: 300px; /* 최소 크기 설정 */
-        max-width: 900px; /* 최대 가로 너비 설정 */
+        max-width: 300px; /* 최대 가로 너비 설정 */
         width: 100%; /* 버튼이 부모 요소의 100%를 차지하도록 설정 */
         min-height: 50px; /* 최소 세로 높이 설정 */
         max-height: 80px; /* 최대 세로 높이 설정 */
+        margin-bottom: 10px; /* 버튼과 bottomImage 간의 간격을 조절 */
     }
+
+    #bottomImage {
+        position: absolute; /* 이미지의 위치를 absolute로 설정 */
+        bottom: 10px; /* 페이지 하단으로부터의 거리 조절 */
+        left: 10px; /* 초기 위치 설정 */
+        max-width: 100px; /* 이미지의 최대 가로 크기 설정 */
+        max-height: 100px; /* 이미지의 최대 세로 크기 설정 */
+        transition: left 1s; /* 왼쪽으로 이동하는 애니메이션 설정 */
+    }
+
     @media (max-width: 768px) {
         #visitButton {
             padding: 3% 7%; /* 페이지의 너비가 768px 이하일 때 버튼 크기 조정 */
             font-size: 1.2em; /* 페이지의 너비가 768px 이하일 때 글자 크기 조정 */
             min-width: 200px;
         }
+    }
+    #logoImage {
+        max-width: 130px; /* 이미지의 최대 가로 크기 설정 */
+        max-height: 130px; /* 이미지의 최대 세로 크기 설정 */
+        transition: opacity 1s; /* 투명도에 대한 전환을 추가합니다. */
+
+
+    }
 </style>
 
 <div id="imageContainer">
     <img id="image" src="{{ MEDIA_URL }}/media/images/tema/Main.png" alt="" style="width: 100%; transition: opacity 1s;">
 </div>
+
 <div>
     <button id="visitButton" onclick="redirectToHomepage()"><strong>킥킥파크에 주차하기</strong></button>
 </div>
+
+<div>
+    <!-- 로딩 이미지 -->
+    <img id="logoImage" src="{{ MEDIA_URL }}/media/images/tema/loading2.gif" alt="Logo Image">
+</div>
+
+<!-- 페이지 왼쪽 하단 이미지 -->
+<div>
+    <img id="bottomImage" src="{{ MEDIA_URL }}/media/images/tema/bottom_image.jpg" alt="Bottom Image">
+</div>
+
+
+
+
 
 <script>
     const imageContainer = document.getElementById('imageContainer');
     const image = document.getElementById('image');
     const visitButton = document.getElementById('visitButton');
+    const bottomImage = document.getElementById('bottomImage');
     const imagePaths = [
         "{{ MEDIA_URL }}/media/images/tema/Rider.png"
     ];
@@ -69,19 +105,42 @@
 
             if (currentImageIndex === 0) {
                 visitButton.style.display = 'block';
+                moveBottomImage(); // 이미지 변경시 이미지 이동 함수 호출
+                hideLogoImage(); // 현재 이미지 인덱스가 0일 때 로고 이미지를 표시합니다.
             }
 
             currentImageIndex = 1;
         }, 1000);
     }
 
+    function showLogoImage() {
+        const logoImage = document.getElementById('logoImage');
+        logoImage.style.opacity = 1; // 로고 이미지를 표시합니다.
+    }
+
+    function hideLogoImage() {
+        const logoImage = document.getElementById('logoImage');
+        logoImage.style.opacity = 0; // 로고 이미지를 숨깁니다.
+    }
+
     function redirectToHomepage() {
         window.location.href = "{% url 'app1:index' %}";
     }
 
+    function moveBottomImage() {
+        // 이미지가 오른쪽으로 이동하도록 left 속성 변경
+        bottomImage.style.left = (imageContainer.offsetWidth - bottomImage.offsetWidth - 10) + 'px';
+    }
+
+    function changeImageWithHiddenLogo() {
+        hideLogoImage(); // 로고 이미지를 숨기고
+        changeImage();   // 이미지 변경 함수를 호출합니다.
+    }
+
     setTimeout(() => {
-        changeImage();
-    }, 3000);
+        showLogoImage(); // 처음에는 로고 이미지를 표시합니다.
+        setTimeout(changeImageWithHiddenLogo, 3000); // 3초 후에 로고를 숨기고 이미지 변경 함수를 호출합니다.
+    }, 0); // 0초 후에 로고 이미지를 표시합니다.
 </script>
 
 {% endblock %}
