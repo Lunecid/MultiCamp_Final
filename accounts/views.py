@@ -1,18 +1,33 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from .forms import CustomUserCreationForm, UserLoginForm
+from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+from django.http import HttpResponse
+
+
+User = get_user_model()
 
 def signup(request):
     if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            # 회원가입 처리 후 로그인 페이지로 리다이렉트
-            return redirect('app1:index')
-    else:
-        form = CustomUserCreationForm()
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        password_confirm = request.POST.get('password_confirm')
 
-    return render(request, 'signup.html', {'form': form})
+        if password == password_confirm:
+            # 비밀번호 확인이 일치하면 사용자 계정 생성
+            User.objects.create_user(username=username, email=email, password=password)
+            # 회원가입 성공 후 로그인 페이지로 리디렉션
+            return redirect('accounts:login')  # 로그인 URL로 변경하세요.
+        else:
+            # 비밀번호 불일치 처리
+            return render(request, 'signup.html', {'error': 'Passwords do not match'})
+    else:
+        # GET 요청 시 회원가입 폼을 렌더링
+        return render(request, 'signup.html')
+
+
 
 def login_view(request):  # 함수 이름 변경
     if request.method == 'POST':
