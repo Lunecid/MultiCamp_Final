@@ -72,8 +72,7 @@
     <button id="visitButton" onclick="redirectToHomepage()"><strong>킥킥파크에 주차하기</strong></button>
 </div>
 
-<div>
-    <!-- 로딩 이미지 -->
+<div id="logoContainer">
     <img id="logoImage" src="{{ MEDIA_URL }}/media/images/tema/loading2.gif" alt="Logo Image">
 </div>
 
@@ -114,13 +113,13 @@
     }
 
     function showLogoImage() {
-        const logoImage = document.getElementById('logoImage');
-        logoImage.style.opacity = 1; // 로고 이미지를 표시합니다.
+        const logoContainer = document.getElementById('logoContainer');
+        logoContainer.style.display = 'block'; // 로고 이미지를 표시합니다.
     }
 
     function hideLogoImage() {
-        const logoImage = document.getElementById('logoImage');
-        logoImage.style.opacity = 0; // 로고 이미지를 숨깁니다.
+        const logoContainer = document.getElementById('logoContainer');
+        logoContainer.style.display = 'none'; // 로고 이미지를 숨깁니다.
     }
 
     function redirectToHomepage() {
