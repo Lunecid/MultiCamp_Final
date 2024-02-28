@@ -45,17 +45,12 @@
                     </span>
                       <a class="nav-link" style="color: #000000;" href="{% url 'accounts:logout' %}">Logout</a>
                   </li>
-                  <li class="nav-item d-flex align-items-center">
-                    <span style="margin-right: 5px;">
-                      <img src="{{ MEDIA_URL }}/media/images/icon_image/logout.png" alt="" width="20" height="20">
-                    </span>
-                      <a class="nav-link" style="color: #000000;" href="{% url 'mypage:my_page' %}">Mypage</a>
-                  </li>
-                  <li class="nav-item d-flex align-items-center">
+                  
+                  <li class="nav-item d-flex align-items-center" >
                     <span style="margin-right: 5px;">
                       <img src="{{ MEDIA_URL }}/media/images/icon_image/user.png" alt="" width="20" height="20">
                     </span>
-                    <a class="nav-link disabled special-color" style="color: #000000;"> <strong>{{ user }}</strong> 님</a>
+                    <a class="nav-link special-color" style="color: #000000;" href="{% url 'mypage:my_page' %}"> <strong>{{ user }}</strong> 님</a>
                   </li>
                   {% else %}
                   <li class="nav-item d-flex align-items-center">
