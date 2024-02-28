@@ -1,6 +1,8 @@
 
 from django.urls import path
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 app_name = 'app1'
@@ -13,4 +15,4 @@ urlpatterns = [
     path('home/', views.home, name='home'),  # 예시 URL 패턴
 
     
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

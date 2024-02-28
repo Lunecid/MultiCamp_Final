@@ -6,8 +6,19 @@
     <br>
     <br>
     <div style="display: flex; flex-direction: column; align-items: center;">
-        <img src="{{ MEDIA_URL }}/media/images/kick_onoff/kick_on.png" alt="Kick On">
-        <br>
+        <!-- 업로드한 이미지가 없을 때 기존 이미지(kick_on.png) 표시 -->
+        {% if not request.session.uploaded_image_url %}
+            <img src="{{ MEDIA_URL }}/media/images/kick_onoff/kick_on.png" alt="Kick On">
+            <br>
+        {% endif %}
+
+        <!-- 업로드한 이미지가 있으면 표시 -->
+        {% if request.session.uploaded_image_url %}
+            <img src="{{ request.session.uploaded_image_url }}" alt="Uploaded Image" style="max-width: 500px; max-height: 500px;">
+            <br>
+        {% endif %}
+
+
         <!-- 숨겨진 업로드 폼 -->
         <form id="upload-form" action="{% url 'app1:image_upload' %}" method="POST" enctype="multipart/form-data" style="display:none;">
             {% csrf_token %}
@@ -17,16 +28,19 @@
                 {{ form.errors }}
             {% endif %}
         </form>
+
         <br>
         <br>    
 
         <!-- 사용자가 클릭할 버튼 -->
         <button id="upload-button">반납하기</button>
+        
+
         <form action="{% url 'app1:addscore' %}" method="post">
             {% csrf_token %}
             <button type="submit" style="background-color: blue; color: white;">점수 추가</button>
         </form>
-        <p style="font-size: 24px;">당신의 점수: {{ points }}점</p>
+            
 
 
         <script type="text/javascript">

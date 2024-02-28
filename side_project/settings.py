@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'accounts',
     'ranking',
     'django_bootstrap5',
+    'mypage',
 
 ]
 
@@ -111,7 +112,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = 'Asia/Seoul'
+
 
 USE_I18N = True
 
@@ -131,7 +133,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = 'accounts.User'
 
 # 업로드한 사진을 저장할 위치(실제 폴더 경로)
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # 미디어 경로를 처리할 URL
 MEDIA_URL = '/media/'

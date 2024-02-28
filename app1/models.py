@@ -9,6 +9,8 @@ from django.utils.timezone import now
 # pip install django-resized
 from django_resized import ResizedImageField
 from django.conf import settings
+from django.utils import timezone
+
 
 
 def upload_to(instance, filename):
@@ -45,6 +47,10 @@ def rotate_image(uploaded_image):
         return uploaded_image
 
 class UploadFile(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,null=True)
+    upload_date = models.DateTimeField( default=timezone.now)
+    
+
     image = ResizedImageField(
         size=[640, 640],
         quality=75,
@@ -56,7 +62,14 @@ class UploadFile(models.Model):
         if self.image:
             self.image = rotate_image(self.image)
         super(UploadFile, self).save(*args, **kwargs)
-
+        
+        score, created = Score.objects.get_or_create(user=self.user)
+        # 점수를 10점 증가
+        score.points += 10
+        # 변경된 점수를 저장
+        score.save()
+    
+    
 
 class Score(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -65,3 +78,4 @@ class Score(models.Model):
     def __str__(self):
         return f"{self.user.username}: {self.points} points"
 
+    
