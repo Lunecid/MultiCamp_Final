@@ -4,6 +4,8 @@ from .models import UploadFile,Score
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.urls import reverse
+import os
+import torch
 
 def main(request):
     return render(request, 'main.html')
@@ -27,9 +29,25 @@ def image_upload(request):
             upload_file.user = request.user  # 현재 로그인한 사용자를 user 필드에 할당
             upload_file.save()
 
-            # 업로드된 이미지의 URL을 세션에 저장
-            image_url = upload_file.image.url  # 업로드된 이미지의 URL
-            request.session['uploaded_image_url'] = request.build_absolute_uri(image_url)
+
+              # 이미지 파일 시스템 경로 생성
+            img_path = os.path.join(settings.MEDIA_ROOT, upload_file.image.name)
+
+            # PyTorch 모델로 이미지 분석
+            model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)
+            # model = torch.load('/Users/uiw_min/Downloads/yolov5s.pt')
+
+            # model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)
+            results = model(img_path)
+            df = results.pandas().xyxy[0].to_dict(orient='records')
+
+            # 분석 결과 처리
+            # 예: 결과를 데이터베이스에 저장하거나, 사용자에게 직접 보여주기
+            request.session['analysis_result'] = df
+            print(df)
+            # # 업로드된 이미지의 URL을 세션에 저장
+            # image_url = upload_file.image.url  # 업로드된 이미지의 URL
+            # request.session['uploaded_image_url'] = request.build_absolute_uri(image_url)
             
             return redirect('app1:index')
     else:
