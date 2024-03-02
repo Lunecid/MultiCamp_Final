@@ -12,7 +12,7 @@ import logging
 
 
 
-openai_api_key = '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'
+openai_api_key = ''
 openai.api_key = openai_api_key
 
 logger = logging.getLogger(__name__)
