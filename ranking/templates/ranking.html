@@ -65,7 +65,9 @@
                             {% elif forloop.counter == 3 %}
                                 <img src="{{ MEDIA_URL }}/media/images/icon_image/bronze_medal.png" alt="Bronze Medal" class="medal-img bronze-medal">
                             {% endif %}
-                            <span class="username text-success">{{ score.user.username }}</span>
+                            <span class="username text-success"> <strong>
+                        {{ score.user.username }} </strong> <span class="text-dark">님</span></span>
+                                
                         </div>
                         <span class="points_name fs-6">Points: {{ score.points }}</span>
                     </div>
