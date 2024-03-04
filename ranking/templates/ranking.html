@@ -3,19 +3,71 @@
 
 {% block body %}
 
+<style>
+    @import url(https://fonts.googleapis.com/css?family=Oswald);
+
+    .gold-medal, .silver-medal, .bronze-medal {
+        max-width: 50px; /* 최대 가로 크기 */
+        max-height: 50px; /* 최대 세로 크기 */
+    }
+
+    h1.Name { position: relative; }
+
+    h1.Name:before,
+    h1.Name:after {
+        content: '[';
+        display: inline-block;
+        position: relative;
+        top: 1px;
+        height: 100%;
+        font-size: 1.25em;
+        color: #4dc1b7;
+        
+        transition: all 0.5s ease;
+    }
+
+    h1.Name:after { content: ']'; }
+
+    h1.Name:hover:before { 
+        transform: translateX(-5px);
+    }
+
+    h1.Name:hover:after { 
+        transform: translateX(5px);
+    }
+
+    h1.Name {
+        font-family: "Oswald", sans-serif;
+    };
+
+    .username {
+        font-family: impact
+    };
+</style>
+
+
 <div class="container mt-5">
-    <h2 class="text-center mb-4">랭킹 페이지</h2>
+    <h1 class="Name" style="text-align: center;"><span>Ranking</span></h1>
     <!-- 상위 3위는 카드 형식으로 출력 -->
+    <br>
+    <br>    
+    <br>
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         {% for score in scores|slice:"3" %}
             <div class="col">
-                <div class="card h-100 shadow">
+                <div class="card h-100 {% if forloop.counter == 1 %}gold-card{% elif forloop.counter == 2 %}silver-card{% elif forloop.counter == 3 %}bronze-card{% endif %}">
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
-                            <span class="badge bg-success">{{ forloop.counter }}</span>
-                            <span class="text-success">{{ score.user.username }}</span>
+                            {% if forloop.counter == 1 %}
+                                <img src="{{ MEDIA_URL }}/media/images/icon_image/gold_medal.png" alt="Gold Medal" class="medal-img gold-medal">
+                            {% elif forloop.counter == 2 %}
+                                <img src="{{ MEDIA_URL }}/media/images/icon_image/silver_medal.png" alt="Silver Medal" class="medal-img silver-medal">
+                            {% elif forloop.counter == 3 %}
+                                <img src="{{ MEDIA_URL }}/media/images/icon_image/bronze_medal.png" alt="Bronze Medal" class="medal-img bronze-medal">
+                            {% endif %}
+                            <span class="username text-success">{{ score.user.username }}</span>
                         </div>
-                        <span class="fs-5">Points: {{ score.points }}</span>
+                        <span class="points_name fs-6">Points: {{ score.points }}</span>
                     </div>
                 </div>
             </div>
@@ -33,7 +85,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for score in scores %}
+            {% for score in scores|slice:"3:" %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
                     <td>{{ score.user.username }}</td>
