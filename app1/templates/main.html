@@ -36,7 +36,7 @@
         width: 100%; /* 버튼이 부모 요소의 100%를 차지하도록 설정 */
         min-height: 50px; /* 최소 세로 높이 설정 */
         max-height: 80px; /* 최대 세로 높이 설정 */
-        margin-bottom: 10px; /* 버튼과 bottomImage 간의 간격을 조절 */
+        margin-bottom: 20px; /* 버튼과 bottomImage 간의 간격을 조절 */
     }
 
     #bottomImage {
@@ -46,6 +46,8 @@
         max-width: 100px; /* 이미지의 최대 가로 크기 설정 */
         max-height: 100px; /* 이미지의 최대 세로 크기 설정 */
         transition: left 1s; /* 왼쪽으로 이동하는 애니메이션 설정 */
+        margin-top: 20px; /* 상단 여백 추가 */
+
     }
 
     @media (max-width: 768px) {
@@ -128,8 +130,13 @@
 
     function moveBottomImage() {
         // 이미지가 오른쪽으로 이동하도록 left 속성 변경
-        bottomImage.style.left = (imageContainer.offsetWidth - bottomImage.offsetWidth - 10) + 'px';
+        bottomImage.style.left = (window.innerWidth - bottomImage.offsetWidth - 10) + 'px';
+
+        window.addEventListener('resize', moveBottomImage);
+        document.addEventListener('DOMContentLoaded', moveBottomImage);
+
     }
+
 
     function changeImageWithHiddenLogo() {
         hideLogoImage(); // 로고 이미지를 숨기고

@@ -6,5 +6,5 @@ from django.conf import settings
 app_name = "mypage"
 
 urlpatterns = [
-    path('my_page/', views.my_page, name='my_page'),
+    path('', views.my_page, name='my_page'),
 ]
