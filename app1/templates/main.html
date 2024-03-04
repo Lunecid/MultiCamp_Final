@@ -19,6 +19,9 @@
         align-items: center;
         justify-content: flex-start;
         margin-bottom: 90px; /* 이미지와 버튼 사이의 여백 설정 */
+        z-index: 4; /* 가장 높은 z-index 값을 주어 맨 위에 표시 */
+
+
     }
 
     #visitButton {
@@ -37,6 +40,7 @@
         min-height: 50px; /* 최소 세로 높이 설정 */
         max-height: 80px; /* 최대 세로 높이 설정 */
         margin-bottom: 10px; /* 버튼과 bottomImage 간의 간격을 조절 */
+
     }
 
     #bottomImage {
@@ -46,6 +50,8 @@
         max-width: 100px; /* 이미지의 최대 가로 크기 설정 */
         max-height: 100px; /* 이미지의 최대 세로 크기 설정 */
         transition: left 1s; /* 왼쪽으로 이동하는 애니메이션 설정 */
+        z-index: 1; /* imageContainer 다음으로 높은 순서 */
+
     }
 
     @media (max-width: 768px) {
@@ -61,6 +67,7 @@
         transition: opacity 1s; /* 투명도에 대한 전환을 추가합니다. */
 
 
+
     }
 </style>
 
@@ -68,18 +75,21 @@
     <img id="image" src="{{ MEDIA_URL }}/media/images/tema/Main.png" alt="" style="width: 100%; transition: opacity 1s;">
 </div>
 
-<div>
-    <button id="visitButton" onclick="redirectToHomepage()"><strong>킥킥파크에 주차하기</strong></button>
-</div>
-
-<div id="logoContainer">
-    <img id="logoImage" src="{{ MEDIA_URL }}/media/images/tema/loading2.gif" alt="Logo Image">
-</div>
 
 <!-- 페이지 왼쪽 하단 이미지 -->
 <div>
     <img id="bottomImage" src="{{ MEDIA_URL }}/media/images/tema/bottom_image.jpg" alt="Bottom Image">
 </div>
+
+<div>
+    <button id="visitButton" onclick="redirectToHomepage()"><strong>킥킥파크에 주차하기</strong></button>
+</div>
+
+
+<div id="logoContainer">
+    <img id="logoImage" src="{{ MEDIA_URL }}/media/images/tema/loading2.gif" alt="Logo Image">
+</div>
+
 
 
 
@@ -128,7 +138,11 @@
 
     function moveBottomImage() {
         // 이미지가 오른쪽으로 이동하도록 left 속성 변경
-        bottomImage.style.left = (imageContainer.offsetWidth - bottomImage.offsetWidth - 10) + 'px';
+        bottomImage.style.left = (window.innerWidth - bottomImage.offsetWidth - 10) + 'px';
+
+        window.addEventListener('resize', moveBottomImage);
+        document.addEventListener('DOMContentLoaded', moveBottomImage);
+
     }
 
     function changeImageWithHiddenLogo() {

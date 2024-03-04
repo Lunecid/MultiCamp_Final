@@ -7,9 +7,12 @@ from django.contrib.auth.models import User
 from .models import Chat
 
 from django.utils import timezone
+import logging
 
 
-openai_api_key = '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'
+logger = logging.getLogger(__name__)
+
+openai_api_key = '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'
 openai.api_key = openai_api_key
 
 
