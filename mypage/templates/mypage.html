@@ -5,8 +5,19 @@
 <style>
     @import url(https://fonts.googleapis.com/css?family=Oswald);
 
+    h1.Name { 
+        position: relative; 
+        font-family: "Oswald", sans-serif;
+    }
 
-    h1.Name { position: relative; }
+    h1.Score {
+        font-family: verdana, sans-serif;
+        
+    }
+
+    .Username_score {
+        font-family: "Comic Sans MS", cursive;
+    }
 
     h1.Name:before,
     h1.Name:after {
@@ -17,7 +28,6 @@
         height: 100%;
         font-size: 1.25em;
         color: #4dc1b7;
-        
         transition: all 0.5s ease;
     }
 
@@ -31,35 +41,141 @@
         transform: translateX(5px);
     }
 
-    h1.Name {
-        font-family: "Oswald", sans-serif;
-    };
-    
+    .grid-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start; /* 왼쪽 정렬 */
+    }
+
+    .location-listing {
+        position: relative;
+        overflow: hidden;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: calc(33.33% - 16px); /* 한 행에 3개의 이미지로 설정 (margin 제외) */
+        margin: 0 8px 16px; /* 이미지 간격 및 여백 조절 */
+    }
+
+    .location-listing:hover {
+        background-color: #4dc1b7; /* 민트색의 투명한 hover 효과 */
+    }
+
+    .location-image {
+        position: relative;
+    }
+
+    .location-image img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .image-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(60, 225, 214, 0.8); /* 민트색의 투명한 오버레이 */
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    .location-image:hover .image-overlay {
+        opacity: 1;
+    }
+
+    .location-title {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #fff;
+        text-align: center;
+        opacity: 0;
+        transition: opacity 0.5s;
+        font-size: 1em; /* 작은 화면에서의 글자 크기 */
+    }
+
+    .location-listing:hover .location-title {
+        opacity: 1;
+    }
+
+    .location-listing form {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        transition: opacity 0.5s;
+        text-align: center;
+    }
+
+    .location-listing:hover form {
+        opacity: 1;
+    }
+
+    .form-button {
+        padding: 8px 16px;
+        background-color: #3498db;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    @media screen and (max-width: 768px) {
+        .location-title {
+            font-size: 0.8em; /* 작은 화면에서의 글자 크기 조절 */
+        }
+    }
+
+    @keyframes blink {
+        50% {
+            opacity: 0;
+        }
+    }
+
+    .separator {
+        width: 100%;
+        height: 1px;
+        background-color: #ddd; /* 또는 다른 원하는 색상으로 변경할 수 있습니다. */
+        margin: 20px 0; /* 위아래 여백 조절 */
+    }
+
 </style>
-
-
-
-
-<div class="container mt-3">
+<br>
+<br>
+<div>
+    <h1 class="Name" style="text-align: center;"><span>My Page</span></h1> 
     <br>
     <br>
-    <h1 class="Name" style="text-align: center;"><span>My Page</span></h1>
     <br>
     <br>
+    <div class="" style="text-align: right">
+        <h1 class="Score">
+            <span class="Score_front" style="font-size: 0.8em;"> <strong class="Username_score">{{request.user.username }} </strong> 님의 킥킥점수는</span>
+            <strong style="color: #03ba34; animation: blink 2s infinite;">{{ user_score }}</strong>
+            <span class="Score_front" style="font-size: 0.8em;">점!</span>
+        </h1>
+    </div>
+    
+</div>
 
-    <p style = "font-size: 30px">나의 총점: {{ user_score }}점</p>
-    <h3>업로드된 이미지</h3>
+<div class="separator"></div>
+<div class="child-page-listing">
     {% if uploaded_files %}
-        <div class="row">
+        <div class="grid-container">
             {% for file in uploaded_files %}
-                <div class="col-md-4">
-                    <div class="thumbnail">
-                        <img src="{{ file.image.url }}" alt="Uploaded image" style="width: 200px; height: 200px; object-fit: cover;">
-
-                        <div class="caption">
-                            <p>업로드 날짜: {{ file.upload_date|date:"Y-m-d H:i" }}</p>
-                            <p>Score: {{ file.user.score.points }} points</p>
-
+                <div class="location-listing">
+                    <div class="location-image">
+                        <img src="{{ file.image.url }}" alt="Uploaded image">
+                        <div class="image-overlay"></div>
+                        <div class="location-title">
+                            <p> <strong> {{ file.upload_date|date:"Y-m-d H:i" }} Potnts: {{ file.user.score.points }} 
+                            <!-- 이 부분 얻은 점수로 해야함 -->
+                            </strong> </p>
                         </div>
                     </div>
                 </div>
@@ -68,6 +184,6 @@
     {% else %}
         <p>업로드된 이미지가 없습니다.</p>
     {% endif %}
+    <!-- end grid container -->
 </div>
-
 {% endblock %}
