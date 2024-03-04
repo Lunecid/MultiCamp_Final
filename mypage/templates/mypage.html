@@ -2,8 +2,50 @@
 {% load static %}
 {% block body %}
 
+<style>
+    @import url(https://fonts.googleapis.com/css?family=Oswald);
+
+
+    h1.Name { position: relative; }
+
+    h1.Name:before,
+    h1.Name:after {
+        content: '[';
+        display: inline-block;
+        position: relative;
+        top: 1px;
+        height: 100%;
+        font-size: 1.25em;
+        color: #4dc1b7;
+        
+        transition: all 0.5s ease;
+    }
+
+    h1.Name:after { content: ']'; }
+
+    h1.Name:hover:before { 
+        transform: translateX(-5px);
+    }
+
+    h1.Name:hover:after { 
+        transform: translateX(5px);
+    }
+
+    h1.Name {
+        font-family: "Oswald", sans-serif;
+    };
+    
+</style>
+
+
+
+
 <div class="container mt-3">
-    <h1 class="Name" style="text-align: center;"><span>MyPage</span></h1>
+    <br>
+    <br>
+    <h1 class="Name" style="text-align: center;"><span>My Page</span></h1>
+    <br>
+    <br>
 
     <p style = "font-size: 30px">나의 총점: {{ user_score }}점</p>
     <h3>업로드된 이미지</h3>

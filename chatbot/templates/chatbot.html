@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
-{% block styles %}
+
+{% block body %}
 <style>
+    @import url(https://fonts.googleapis.com/css?family=Oswald);
+
     body, html {
       height: 100%;
     }
@@ -60,16 +63,44 @@
       flex-direction: column;
     }
     
+    h1.Name { position: relative; }
+
+    h1.Name:before,
+    h1.Name:after {
+        content: '[';
+        display: inline-block;
+        position: relative;
+        top: 1px;
+        height: 100%;
+        font-size: 1.25em;
+        color: #4dc1b7;
+        
+        transition: all 0.5s ease;
+    }
+
+    h1.Name:after { content: ']'; }
+
+    h1.Name:hover:before { 
+        transform: translateX(-5px);
+    }
+
+    h1.Name:hover:after { 
+        transform: translateX(5px);
+    }
+
+    h1.Name {
+        font-family: "Oswald", sans-serif;
+    };
   </style>
-{% endblock %}
 
-
-{% block body %}
-<h1 class="Name" style="text-align: center;"><span>Chatbot</span></h1>
-
+<br>
+<br>
+<h1 class="Name" style="text-align: center;"><span>Chat Bot</span></h1>
+<br>
+<br>
 <div class="chat-container">
   <div class="card flex-grow-1">
-    <div class="card-header bg-primary text-white">Chat</div>
+    <div class="card-header bg-success text-white">Chat</div>
    
     <div class="card-body messages-box">
       
