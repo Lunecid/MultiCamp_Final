@@ -210,32 +210,110 @@
 
         
 
-    #progress {
-        position: relative;
-        margin-bottom: 17px;
-        appearance: none;
-        width: 100%;
-      }
-      
-    #progress::-webkit-progress-bar {
-        background: #f0f0f0;
-        border-radius: 5px;
-        border: 1px solid #eeeeee;
-        height: 28px;
-        width: 100%;
-        overflow: hidden;
-      }
+        #progress {
+            position: relative;
+            margin-bottom: 17px;
+            appearance: none;
+            width: 100%;
+        }
 
-    #progress::-webkit-progress-value {
-        background: #0fe47d;
-        border-radius: 0px;
-        height: 28px;
-        width: 100%;
-      }
+        .moving-image-container {
+            position: relative;
+            width: 100%;
+            height: 50px; /* 디자인에 따라 조절하세요 */
+            overflow: hidden;
+        }
+
+        .moving-image {
+            width: 40px; /* 디자인에 따라 조절하세요 */
+            height: 40px; /* 디자인에 따라 조절하세요 */
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: transform 0.3s ease-in-out;
+            transform-origin: left; /* 이미지의 기준점을 좌측으로 설정 */
+        }
+
+        .max-image {
+            width: 40px; /* 디자인에 따라 조절하세요 */
+            height: 40px; /* 디자인에 따라 조절하세요 */
+        }
+
+
+
+        
+        #progress::-webkit-progress-bar {
+            background: #f0f0f0;
+            border-radius: 5px;
+            border: 1px solid #eeeeee;
+            height: 28px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        #progress::-webkit-progress-value {
+            background: #0fe47d;
+            border-radius: 0px;
+            height: 28px;
+            width: 100%;
+        }
+
+        #progress:disabled+ .moving-image-container .moving-image {
+        transform: translateX(calc(({{ user_score }} / 1000) * (100% - 40px))); /* 80px에서 40px로 수정 */
+    }
+        
     
     </style>
 
 </head>
+<script>
+    window.onload = function () {
+        var progress = document.getElementById('progress');
+        var movingImage = document.querySelector('.moving-image');
+        var maxScore = 1000; // 최대 점수를 설정하세요
+
+        // Update the position of the moving image when the progress changes
+        progress.addEventListener('input', function () {
+            updateMovingImagePosition();
+        });
+
+        function updateMovingImagePosition() {
+            var progressValue = progress.value;
+
+            // Check if the score has reached the maximum
+            if (progressValue >= maxScore) {
+                // If the score is at the maximum, reset the position and score
+                resetMovingImagePosition();
+            } else {
+                // Calculate the percentage of progress
+                var percentage = (progressValue / maxScore) * 100;
+
+                // Update the position of the moving image based on the progress bar's value
+                var progressBarWidth = progress.offsetWidth;
+                var imageWidth = movingImage.offsetWidth;
+                var newPosition = (percentage / 100) * (progressBarWidth - imageWidth);
+
+                // Update the position of the moving image
+                movingImage.style.transform = 'translateX(' + newPosition + 'px)';
+            }
+        }
+
+        function resetMovingImagePosition() {
+            // Reset the position of the moving image
+            movingImage.style.transform = 'translateX(0)';
+            
+            // Reset the score
+            progress.value = 0;
+
+            // Show the max score image
+            document.getElementById('maxScoreImage').style.display = 'block';
+        }
+
+        // Initial update
+        updateMovingImagePosition();
+    };
+</script>
 <div>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Driver's License Card</title>
@@ -266,6 +344,12 @@
                     max= "1000">
                 </progress>
             </div>
+            <div class="moving-image-container">
+                <img src="{{ MEDIA_URL }}/media/images/icon_image/Kick_icon.png" alt="Profile Picture" class="moving-image">
+                <p align="right">                <img src="{{ MEDIA_URL }}/media/images/icon_image/나무.png" alt="Max Score Image" class="max-image"></p>
+
+            </div>
+            <div style="text-align: right;" class="license-number">{{ user_score }} / 1000 </div>
             <div class="expiration-date"></div>
         </div>
     </body>
