@@ -10,7 +10,8 @@ class User(AbstractUser):
     class Meta:
         # 다른 Meta 옵션과 함께 존재하는 경우 추가
         pass
-
+    
+        
 # accounts.User 모델에 대한 그룹 및 사용자 권한 관련 역참조 이름 변경
 User.groups.field.remote_field.related_name = 'custom_user_groups'
 User.user_permissions.field.remote_field.related_name = 'custom_user_permissions'

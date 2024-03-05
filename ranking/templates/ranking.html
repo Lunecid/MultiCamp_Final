@@ -88,11 +88,13 @@
         </thead>
         <tbody>
             {% for score in scores|slice:"3:" %}
-                <tr>
-                    <td>{{ forloop.counter }}</td>
-                    <td>{{ score.user.username }}</td>
-                    <td>{{ score.points }}</td>
-                </tr>
+                {% with display_counter=forloop.counter0|add:4 %}
+                    <tr>
+                        <td>{{ display_counter }}</td>
+                        <td>{{ score.user.username }}</td>
+                        <td>{{ score.points }}</td>
+                    </tr>
+                {% endwith %}
             {% endfor %}
         </tbody>
     </table>

@@ -1,166 +1,274 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block body %}
-
-<style>
-    @import url(https://fonts.googleapis.com/css?family=Oswald);
-
-    h1.Name { 
-        position: relative; 
-        font-family: "Oswald", sans-serif;
-    }
-
-    h1.Score {
-        font-family: verdana, sans-serif;
-        
-    }
-
-    .Username_score {
-        font-family: "Comic Sans MS", cursive;
-    }
-
-    h1.Name:before,
-    h1.Name:after {
-        content: '[';
-        display: inline-block;
-        position: relative;
-        top: 1px;
-        height: 100%;
-        font-size: 1.25em;
-        color: #4dc1b7;
-        transition: all 0.5s ease;
-    }
-
-    h1.Name:after { content: ']'; }
-
-    h1.Name:hover:before { 
-        transform: translateX(-5px);
-    }
-
-    h1.Name:hover:after { 
-        transform: translateX(5px);
-    }
-
-    .grid-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: flex-start; /* 왼쪽 정렬 */
-    }
-
-    .location-listing {
-        position: relative;
-        overflow: hidden;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        width: calc(33.33% - 16px); /* 한 행에 3개의 이미지로 설정 (margin 제외) */
-        margin: 0 8px 16px; /* 이미지 간격 및 여백 조절 */
-    }
-
-    .location-listing:hover {
-        background-color: #4dc1b7; /* 민트색의 투명한 hover 효과 */
-    }
-
-    .location-image {
-        position: relative;
-    }
-
-    .location-image img {
-        width: 100%;
-        height: auto;
-        border-radius: 8px;
-        transition: transform 0.3s ease-in-out;
-    }
-
-    .image-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(60, 225, 214, 0.8); /* 민트색의 투명한 오버레이 */
-        opacity: 0;
-        transition: opacity 0.3s;
-    }
-
-    .location-image:hover .image-overlay {
-        opacity: 1;
-    }
-
-    .location-title {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        color: #fff;
-        text-align: center;
-        opacity: 0;
-        transition: opacity 0.5s;
-        font-size: 1em; /* 작은 화면에서의 글자 크기 */
-    }
-
-    .location-listing:hover .location-title {
-        opacity: 1;
-    }
-
-    .location-listing form {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        opacity: 0;
-        transition: opacity 0.5s;
-        text-align: center;
-    }
-
-    .location-listing:hover form {
-        opacity: 1;
-    }
-
-    .form-button {
-        padding: 8px 16px;
-        background-color: #3498db;
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-
-    @media screen and (max-width: 768px) {
-        .location-title {
-            font-size: 0.8em; /* 작은 화면에서의 글자 크기 조절 */
-        }
-    }
-
-    @keyframes blink {
-        50% {
-            opacity: 0;
-        }
-    }
-
-    .separator {
-        width: 100%;
-        height: 1px;
-        background-color: #ddd; /* 또는 다른 원하는 색상으로 변경할 수 있습니다. */
-        margin: 20px 0; /* 위아래 여백 조절 */
-    }
-
-</style>
-<br>
-<br>
-<div>
-    <h1 class="Name" style="text-align: center;"><span>My Page</span></h1> 
-    <br>
-    <br>
-    <br>
-    <br>
-    <div class="" style="text-align: right">
-        <h1 class="Score">
-            <span class="Score_front" style="font-size: 0.8em;"> <strong class="Username_score">{{request.user.username }} </strong> 님의 킥킥점수는</span>
-            <strong style="color: #03ba34; animation: blink 2s infinite;">{{ user_score }}</strong>
-            <span class="Score_front" style="font-size: 0.8em;">점!</span>
-        </h1>
-    </div>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Oswald);
     
+    
+    body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+    
+        .license-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 100%;
+           
+        }
+    
+        .profile-picture {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+    
+        .Score_div {
+            text-align: left;
+        }
+    
+    
+        .license-info {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 10px;
+            text-align: right;
+            display: flex; /* 추가된 스타일 */
+            justify-content: space-between; /* 추가된 스타일 */
+            align-items: center; /* 추가된 스타일 */
+        }
+    
+        .license-number {
+            font-size: 18px;
+            font-weight: bold;
+            color: #3498db;
+            margin-bottom: 15px;
+        }
+    
+        .expiration-date {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 10px;
+        }
+    
+        .signature {
+            width: 100px;
+            height: 40px;
+            margin-top: 20px;
+            object-fit: cover;
+        }
+    
+        h1.Name { 
+            position: relative; 
+            font-family: "Oswald", sans-serif;
+        }
+    
+        h1.Score {
+            font-family: verdana, sans-serif;
+            
+        }
+    
+        .Username_score {
+            font-family: "Comic Sans MS", cursive;
+        }
+    
+        h1.Name:before,
+        h1.Name:after {
+            content: '[';
+            display: inline-block;
+            position: relative;
+            top: 1px;
+            height: 100%;
+            font-size: 1.25em;
+            color: #4dc1b7;
+            transition: all 0.5s ease;
+        }
+    
+        h1.Name:after { content: ']'; }
+    
+        h1.Name:hover:before { 
+            transform: translateX(-5px);
+        }
+    
+        h1.Name:hover:after { 
+            transform: translateX(5px);
+        }
+    
+        .grid-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start; /* 왼쪽 정렬 */
+        }
+    
+        .location-listing {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: calc(33.33% - 16px); /* 한 행에 3개의 이미지로 설정 (margin 제외) */
+            margin: 0 8px 16px; /* 이미지 간격 및 여백 조절 */
+        }
+    
+        .location-listing:hover {
+            background-color: #4dc1b7; /* 민트색의 투명한 hover 효과 */
+        }
+    
+        .location-image {
+            position: relative;
+        }
+    
+        .location-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            transition: transform 0.3s ease-in-out;
+        }
+    
+        .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(60, 225, 214, 0.8); /* 민트색의 투명한 오버레이 */
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+    
+        .location-image:hover .image-overlay {
+            opacity: 1;
+        }
+    
+        .location-title {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.5s;
+            font-size: 1em; /* 작은 화면에서의 글자 크기 */
+        }
+    
+        .location-listing:hover .location-title {
+            opacity: 1;
+        }
+    
+        .location-listing form {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.5s;
+            text-align: center;
+        }
+    
+        .location-listing:hover form {
+            opacity: 1;
+        }
+    
+        .form-button {
+            padding: 8px 16px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    
+        @media screen and (max-width: 768px) {
+            .location-title {
+                font-size: 0.8em; /* 작은 화면에서의 글자 크기 조절 */
+            }
+        }
+    
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+    
+        .separator {
+            width: 100%;
+            height: 1px;
+            background-color: #ddd; /* 또는 다른 원하는 색상으로 변경할 수 있습니다. */
+            margin: 20px 0; /* 위아래 여백 조절 */
+        }
+
+        
+
+    #progress {
+        position: relative;
+        margin-bottom: 17px;
+        appearance: none;
+        width: 100%;
+      }
+      
+    #progress::-webkit-progress-bar {
+        background: #f0f0f0;
+        border-radius: 5px;
+        border: 1px solid #eeeeee;
+        height: 28px;
+        width: 100%;
+        overflow: hidden;
+      }
+
+    #progress::-webkit-progress-value {
+        background: #0fe47d;
+        border-radius: 0px;
+        height: 28px;
+        width: 100%;
+      }
+    
+    </style>
+
+</head>
+<div>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driver's License Card</title>
+    <br>
+    <body>
+        <div class="license-card">
+            <!-- <p align="right">
+            <img src="profile_picture.jpg" alt="Profile Picture" class="profile-picture"></p> -->
+            <div class="license-info">
+                <div class="Score_div" style="text-align: left">
+                    <h2 class="Score">
+                        <span class="Score_front" style="font-size: 0.8em;"> <strong class="Username_score">{{request.user.username }} </strong> 님의</span>
+                    </h2>
+                    <h4>
+                        <span class="Score_front">킥킥파크 점수는</span>
+                        <strong style="color: #03ba34; animation: blink 2s infinite;">{{ user_score }}</strong>
+                        <span class="Score_front" style="font-size: 0.8em;">점!</span>
+                    </h4>
+                </div>
+                <img src="{{ MEDIA_URL }}/media/images/icon_image/기본프로필.png" alt="Profile Picture" class="profile-picture">
+            </div>
+            
+            <div class="progress-bar">
+                <progress class="progress"
+                    id="progress"
+                    value= "{{ user_score }}"
+                    min="0"
+                    max= "1000">
+                </progress>
+            </div>
+            <div class="expiration-date"></div>
+        </div>
+    </body>
 </div>
 
 <div class="separator"></div>
