@@ -47,9 +47,9 @@
     <br>
     <br>
 
-    <p style = "font-size: 30px">나의 총점: {{ user_score }}점</p>
+    <p style = "font-size: 30px">나의 총점: {{ total_score }}점</p>
     <h3>업로드된 이미지</h3>
-    {% if uploaded_files %}
+   
         <div class="row">
             {% for file in uploaded_files %}
                 <div class="col-md-4">
@@ -57,17 +57,19 @@
                         <img src="{{ file.image.url }}" alt="Uploaded image" style="width: 200px; height: 200px; object-fit: cover;">
 
                         <div class="caption">
+                            <!-- 업로드 날짜 -->
                             <p>업로드 날짜: {{ file.upload_date|date:"Y-m-d H:i" }}</p>
-                            <p>Score: {{ file.user.score.points }} points</p>
+                            <!-- 분석 점수 -->
+                            <p>분석 점수: {{ file.analysis_score }}</p>
+                            <!-- 분석 결과 -->
+                            <p>분석 결과: {{ file.analysis_phrase }}</p>
 
                         </div>
                     </div>
                 </div>
             {% endfor %}
         </div>
-    {% else %}
-        <p>업로드된 이미지가 없습니다.</p>
-    {% endif %}
+    
 </div>
 
 {% endblock %}
