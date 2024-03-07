@@ -7,5 +7,11 @@ User = get_user_model()
 class MyModel(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     upload_file = models.ForeignKey(UploadFile, on_delete=models.CASCADE)
+    # UploadFile 모델에서 분석 결과를 가져오는 메소드
+    @property
+    def analysis_score(self):
+        return self.upload_file.analysis_score
 
-    # 다른 필드들을 필요에 따라 추가할 수 있습니다.
+    @property
+    def analysis_phrase(self):
+        return self.upload_file.analysis_phrase

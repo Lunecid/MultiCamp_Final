@@ -1,60 +1,62 @@
 {% extends 'base.html' %}
 
 {% block body %}
-    <br>
-    <br>
-    <br>
-    <br>
-    <div style="display: flex; flex-direction: column; align-items: center;">
-        <!-- 업로드한 이미지가 없을 때 기존 이미지(kick_on.png) 표시 -->
-        {% if not request.session.uploaded_image_url %}
-            <img src="{{ MEDIA_URL }}/media/images/kick_onoff/kick_on.png" alt="Kick On">
-            <br>
-        {% endif %}
-
-        <!-- 업로드한 이미지가 있으면 표시 -->
-        {% if request.session.uploaded_image_url %}
-            <img src="{{ request.session.uploaded_image_url }}" alt="Uploaded Image" style="max-width: 500px; max-height: 500px;">
-            <br>
-        {% endif %}
-
-
-        <!-- 숨겨진 업로드 폼 -->
-        <form id="upload-form" action="{% url 'app1:image_upload' %}" method="POST" enctype="multipart/form-data" style="display:none;">
-            {% csrf_token %}
-            <input type="file" name="image" id="id_image" accept="image/*" capture>
-            <!-- 오류가 있을 경우 오류를 표시합니다 -->
-            {% if form.errors %}
-                {{ form.errors }}
-            {% endif %}
-        </form>
-
+<br>
+<br>
+<br>
+<br>
+<div style="display: flex; flex-direction: column; align-items: center;">
+    {% if not request.session.uploaded_image_url %}
+        <img src="{{ MEDIA_URL }}/media/images/kick_onoff/kick_on.png" alt="Kick On">
         <br>
-        <br>    
+    {% endif %}
 
-        <!-- 사용자가 클릭할 버튼 -->
-        <button id="upload-button">반납하기</button>
-        
+    {% if request.session.uploaded_image_url %}
+        <img src="{{ request.session.uploaded_image_url }}" alt="Uploaded Image" style="max-width: 500px; max-height: 500px;">
+        <br>
+    {% endif %}
 
-        <form action="{% url 'app1:addscore' %}" method="post">
-            {% csrf_token %}
-            <button type="submit" style="background-color: blue; color: white;">점수 추가</button>
-        </form>
-            
+    <form id="upload-form" action="{% url 'app1:image_upload' %}" method="POST" enctype="multipart/form-data" style="display:none;">
+        {% csrf_token %}
+        <input type="file" name="image" id="id_image" accept="image/*" capture>
+        {% if form.errors %}
+            {{ form.errors }}
+        {% endif %}
+    </form>
 
+    <!-- 여기에 분석 점수와 설명 표시 -->
+    
+    <br>
+    <br>
 
-        <script type="text/javascript">
-            // 버튼 클릭 시 숨겨진 파일 입력 필드를 트리거합니다.
-            document.getElementById('upload-button').addEventListener('click', function() {
-                document.getElementById('id_image').click();
-            });
+    <button id="upload-button">반납하기</button>
+    <br>
+    <br>
 
-            // 파일이 선택되면 폼을 자동으로 제출합니다.
-            document.getElementById('id_image').addEventListener('change', function() {
-                console.log('제출할거야')
-                document.getElementById('upload-form').submit();
-            });
-        </script>
+    {% if analysis_score %}
+    <div>
+        <h3>획득한 점수:</h3>
+        <p>{{ analysis_score }}점</p>
     </div>
+    {% endif %}
+
+    {% if analysis_phrase %}
+    <div>
+        <h3>분석 결과:</h3>
+        <p>{{ analysis_phrase }}</p>
+    </div>
+    {% endif %}
+
+
+    <script type="text/javascript">
+        document.getElementById('upload-button').addEventListener('click', function() {
+            document.getElementById('id_image').click();
+        });
+
+        document.getElementById('id_image').addEventListener('change', function() {
+            document.getElementById('upload-form').submit();
+        });
+    </script>
+</div>
 
 {% endblock %}

@@ -260,7 +260,7 @@
         }
 
         #progress:disabled+ .moving-image-container .moving-image {
-        transform: translateX(calc(({{ user_score }} / 1000) * (100% - 40px))); /* 80px에서 40px로 수정 */
+        transform: translateX(calc(({{ total_score }} / 1000) * (100% - 40px))); /* 80px에서 40px로 수정 */
     }
         
     
@@ -329,7 +329,7 @@
                     </h2>
                     <h4>
                         <span class="Score_front">킥킥파크 점수는</span>
-                        <strong style="color: #03ba34; animation: blink 2s infinite;">{{ user_score }}</strong>
+                        <strong style="color: #03ba34; animation: blink 2s infinite;">{{ total_score }}</strong>
                         <span class="Score_front" style="font-size: 0.8em;">점!</span>
                     </h4>
                 </div>
@@ -339,7 +339,7 @@
             <div class="progress-bar">
                 <progress class="progress"
                     id="progress"
-                    value= "{{ user_score }}"
+                    value= "{{ total_score }}"
                     min="0"
                     max= "1000">
                 </progress>
@@ -349,7 +349,7 @@
                 <p align="right">                <img src="{{ MEDIA_URL }}/media/images/icon_image/나무.png" alt="Max Score Image" class="max-image"></p>
 
             </div>
-            <div style="text-align: right;" class="license-number">{{ user_score }} / 1000 </div>
+            <div style="text-align: right;" class="license-number">{{ total_score }} / 1000 </div>
             <div class="expiration-date"></div>
         </div>
     </body>
@@ -365,7 +365,7 @@
                         <img src="{{ file.image.url }}" alt="Uploaded image">
                         <div class="image-overlay"></div>
                         <div class="location-title">
-                            <p> <strong> {{ file.upload_date|date:"Y-m-d H:i" }} Potnts: {{ file.user.score.points }} 
+                            <p> <strong> {{ file.upload_date|date:"Y-m-d H:i" }} Potnts: {{ file.analysis_score }} 
                             <!-- 이 부분 얻은 점수로 해야함 -->
                             </strong> </p>
                         </div>

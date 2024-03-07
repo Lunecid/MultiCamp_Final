@@ -1,7 +1,7 @@
 from django.shortcuts import render
 # from .models import Score # 이 줄은 제거
-from app1.models import Score
+from app1.models import TotalScore
 
 def ranking_view(request):
-    scores = Score.objects.order_by('-points')  # 점수가 높은 순으로 정렬
+    scores = TotalScore.objects.all().order_by('-total_score')
     return render(request, 'ranking.html', {'scores': scores})

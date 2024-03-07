@@ -69,7 +69,7 @@
                         {{ score.user.username }} </strong> <span class="text-dark">님</span></span>
                                 
                         </div>
-                        <span class="points_name fs-6">Points: {{ score.points }}</span>
+                        <span class="points_name fs-6">Points: {{ score.total_score }}</span>
                     </div>
                 </div>
             </div>
@@ -92,7 +92,7 @@
                     <tr>
                         <td>{{ display_counter }}</td>
                         <td>{{ score.user.username }}</td>
-                        <td>{{ score.points }}</td>
+                        <td>{{ score.total_score }}</td>
                     </tr>
                 {% endwith %}
             {% endfor %}
