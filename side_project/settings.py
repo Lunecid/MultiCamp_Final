@@ -15,17 +15,28 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# 비밀값은 코드에 두지 않고 환경변수(또는 .env 파일)에서 읽는다. (.env.example 참고)
+try:
+    from dotenv import load_dotenv
+    load_dotenv(BASE_DIR / ".env")
+except ImportError:
+    pass
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-k=f$p!b9$$)dx9enqd(k$!!!x86+td(4pv)cn*!wx10i)y9&#c"
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "dev-only-insecure-key-change-me")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DJANGO_DEBUG", "True") == "True"
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
+
+# 외부 API 키
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
+KAKAO_JS_KEY = os.environ.get("KAKAO_JS_KEY", "")
 
 
 # Application definition

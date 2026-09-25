@@ -1,0 +1,6 @@
+Django==5.0.2
+django-bootstrap5
+django-resized
+Pillow
+openai==0.28.1  # chatbot/views.py uses the legacy openai.ChatCompletion API
+python-dotenv

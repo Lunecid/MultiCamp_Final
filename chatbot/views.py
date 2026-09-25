@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
+from django.conf import settings
 import openai
 
 from django.contrib import auth
@@ -12,8 +13,8 @@ import logging
 
 
 
-openai_api_key = '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'
-openai.api_key = openai_api_key
+# API 키는 환경변수 OPENAI_API_KEY에서 읽는다 (settings.py 참고)
+openai.api_key = settings.OPENAI_API_KEY
 
 logger = logging.getLogger(__name__)
 
