@@ -1,6 +1,0 @@
-global:
-  scrape_interval:     5s # By default, scrape targets every 15 seconds.
-scrape_configs:
-  - job_name: 'my-prometheus'
-    static_configs:
-      - targets: ['{61.74.26.41:8002}']
