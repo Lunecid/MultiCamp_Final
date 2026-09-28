@@ -87,7 +87,7 @@ flowchart LR
 
 | 차수 | 모델 | 데이터 | 라벨 | 결과와 교훈 |
 |:---:|---|---|---|---|
-| 1 | YOLOv5 | Roboflow 공개 데이터 (킥보드 2,524장 · 주차장 3,123장) | scooter / empty / occupied | 킥보드와 주차선을 따로 학습한 뒤 합치는 전이학습이 비효율적 → 실패 |
+| 1 | YOLOv5 | Roboflow 공개 데이터(라이선스 미확인), 킥보드 2,524장 · 주차장 3,123장 | scooter / empty / occupied | 킥보드와 주차선을 따로 학습한 뒤 합치는 전이학습이 비효율적 → 실패 |
 | 2 | YOLOv5 | 자체 제작 데이터셋 600장 (Labelme 라벨링) | parking / in / out | 킥보드와 주차장을 다른 박스로 잡으니 **둘의 관계가 학습되지 않음** |
 | 3 | YOLOv8 | 자체 제작 1,429장 (증강) | parking / in / out | 킥보드와 주차장을 **한 박스로** 묶자 in/out이 잘 학습됨 |
 | 4 | YOLOv8 + YOLOv8 | 1,429장 | in/out 모델 + parking / stand / fall 모델 | 좌표를 이용해 **서 있음/넘어짐**까지 판정 |
