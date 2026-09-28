@@ -19,7 +19,7 @@
 
 </div>
 
-> **English summary** — Shared e-scooters are unpopular in Korea mostly because of reckless parking. We first explored Seoul open data (floating population, public-bike usage, towing records, parking zones) to find where parking spaces should go, then **pivoted to judging each return photo**: over six iterations (YOLOv5 → YOLOv8 → Mask R-CNN, 1,429 self-labelled photos) the model learned to locate the *parking area*, the *scooter* and its *wheels* and decide whether the scooter is **standing or fallen, inside or outside** the zone. A rule-based score (up to 20 points) feeds a **points-and-ranking web service** (Django) that rewards good parking — a small gamification loop for a civic problem. Grand Prize of the Multicampus final project.
+> **English summary** — Shared e-scooters are unpopular in Korea mostly because of reckless parking. We first explored Seoul open data (floating population, public-bike usage, towing records, parking zones) to find where parking spaces should go, then **pivoted to judging each return photo**: over six iterations (YOLOv5 → YOLOv8 → Mask R-CNN, 1,429 self-labelled photos) the model learned to locate the *parking area*, the *scooter* and its *wheels* and decide whether the scooter is **standing or fallen, inside or outside** the zone. A rule-based score (up to 20 points) was designed to reward good parking in a **points-and-ranking web service** (Django) — a small gamification loop for a civic problem. The 20-point rule ran only in the team's local prototype pipeline; the public Django demo adds a fixed score per upload. Model training, Triton serving and the scoring pipeline are the team's work, uploaded to [`training/`](training/) for the record; my part was the district-level Tableau visualisation and the website. Grand Prize of the Multicampus final project.
 
 ---
 
@@ -83,7 +83,7 @@ flowchart LR
 
 ## 4. 2단계: 제대로 세웠는가 — 주차 상태 판정 모델
 
-라벨 설계를 여섯 번 바꾸며 모델을 고쳤다.
+팀은 라벨 설계를 여섯 번 바꾸며 모델을 고쳤다. 학습·서빙 노트북과 가중치는 기록용으로 [`training/`](training/)에 올렸다.
 
 | 차수 | 모델 | 데이터 | 라벨 | 결과와 교훈 |
 |:---:|---|---|---|---|
@@ -123,7 +123,7 @@ flowchart LR
 | 0–10 (부적합) | 4 | 2 |
 | **구역 밖** (적합도 무관) | 4 | 2 |
 
-같은 적합도라면 서 있는 쪽에 2점을 더 주고, 구역 밖은 최저점만 준다. 구역 안에 바르게 세울수록 점수가 커지도록 설계했다.
+같은 적합도라면 서 있는 쪽에 2점을 더 주고, 구역 밖은 최저점만 준다. 구역 안에 바르게 세울수록 점수가 커지도록 설계했다. 이 규칙은 팀의 로컬 프로토타입(`training/notebooks/server.ipynb`)에서만 돌렸고, 공개 웹 데모에는 연결하지 않았다(아래 6절).
 
 ## 6. 웹 서비스
 
@@ -152,7 +152,7 @@ flowchart LR
     D <--> M
 ```
 
-> 저장소 기본 설정은 로컬 실행용 SQLite다. 판정 모델은 Colab에서 따로 학습했고, 모델 가중치와 추론 연동 코드는 이 저장소에 없다. 지금 코드는 사진을 올릴 때마다 고정 점수(+10)를 쌓으며, 위 점수 규칙은 발표에서 제안한 설계다.
+> 저장소 기본 설정은 로컬 실행용 SQLite다. 공개 웹 코드는 판정 모델과 연결되어 있지 않고, 사진을 올릴 때마다 고정 점수(+10)를 쌓는다. 판정 모델 학습, Triton 서빙, 점수 파이프라인은 팀의 작업이며 기록용으로 [`training/`](training/)에 올렸다. 가중치, Triton 설정, 로컬 점수 파이프라인 노트북이 들어 있고, 5절의 20점 규칙은 이 로컬 프로토타입에서만 돌렸다. 자세한 내용은 [training/README.md](training/README.md)에 있다.
 
 ## 7. 실행 방법
 
@@ -172,9 +172,10 @@ API 키는 코드에 넣지 않고 `.env`로만 관리한다.
 
 5인 팀에서 다음을 맡았다.
 
-- **탐색적 시각화**: 자치구·행정동 선정 과정을 Tableau 지도와 차트로 시각화 (위 1단계 그림)
-- **데이터 전처리**: 서울시 공공데이터 수집·정제
+- **탐색적 시각화**: 입지 분석에 쓴 자치구별 데이터를 Tableau로 시각화
 - **웹사이트 구축**: Django 기반 서비스 화면과 기능 구현
+
+판정 모델 학습, Triton 서빙, 점수 파이프라인(`training/`)은 팀의 작업이다.
 
 ## 9. 회고
 
