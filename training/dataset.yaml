@@ -1,0 +1,5 @@
+train: /root/code/yolov8/dataset/kick_ScooterWheel/images/train/
+val: /root/code/yolov8/dataset/kick_ScooterWheel/images/val/
+test: /root/code/yolov8/dataset/kick_ScooterWheel/images/test/
+nc: 3
+names: ["parking", "scooter", "wheel"]

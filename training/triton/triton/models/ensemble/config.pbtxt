@@ -1,0 +1,109 @@
+name: "ensemble"
+platform: "ensemble"
+max_batch_size: 0  # 필요한 경우 여기서 배치 크기를 설정할 수 있습니다.
+
+input [
+  {
+    name: "ensemble_input"
+    data_type: TYPE_FP32
+    dims: [ 640, 640, 3]  # 입력 이미지의 차원을 정의합니다.
+  }
+]
+
+output [
+  {
+    name: "output_point"
+    data_type: TYPE_FP32
+    dims: [ -1 ]  # postprocess 모델의 출력 차원을 정의합니다.
+  },
+  {
+    name: "output_scores"
+    data_type: TYPE_FP32
+    dims: [ -1 ]  # postprocess 모델의 출력 차원을 정의합니다.
+  }
+]
+
+ensemble_scheduling {
+  step [
+    {
+      model_name: "preprocess"
+      model_version: -1
+      input_map {
+        key: "INPUT_0"
+        value: "ensemble_input"
+      }
+      output_map {
+        key: "OUTPUT_0"
+        value: "preprocessed_output"
+      }
+    },
+    {
+      model_name: "mrcnn"
+      model_version: -1
+      input_map {
+        key: "input_0"
+        value: "preprocessed_output"
+      }
+      output_map {
+        key: "boxes"
+        value: "mrcnn_boxes"
+      }
+      output_map {
+        key: "labels"
+        value: "mrcnn_labels"
+      }
+      output_map {
+        key: "scores"
+        value: "mrcnn_scores"
+      }
+      output_map {
+        key: "masks"
+        value: "mrcnn_masks"
+      }
+    },
+    {
+      model_name: "yolo"
+      model_version: -1
+      input_map {
+        key: "images"
+        value: "preprocessed_output"
+      }
+      output_map {
+        key: "output0"
+        value: "yolo_output"
+      }
+    },
+    {
+      model_name: "postprocess"
+      model_version: -1
+      input_map {
+        key: "boxes"
+        value: "mrcnn_boxes"
+      }
+      input_map {
+        key: "labels"
+        value: "mrcnn_labels"
+      }
+      input_map {
+        key: "scores"
+        value: "mrcnn_scores"
+      }
+      input_map {
+        key: "masks"
+        value: "mrcnn_masks"
+      }
+      input_map {
+        key: "yolo_result"
+        value: "yolo_output"
+      }
+      output_map {
+        key: "point"
+        value: "output_point"
+      }
+      output_map {
+        key: "scores"
+        value: "output_scores"
+      }
+    }
+  ]
+}
