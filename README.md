@@ -19,7 +19,7 @@
 
 </div>
 
-> **English summary** — Shared e-scooters are unpopular in Korea mostly because of reckless parking. We first explored Seoul open data (floating population, public-bike usage, towing records, parking zones) to find where parking spaces should go, then **pivoted to judging each return photo**: over six iterations (YOLOv5 → YOLOv8 → Mask R-CNN, 1,429 self-labelled photos) the model learned to locate the *parking area*, the *scooter* and its *wheels* and decide whether the scooter is **standing or fallen, inside or outside** the zone. A rule-based score (up to 20 points) was designed to reward good parking in a **points-and-ranking web service** (Django) — a small gamification loop for a civic problem. The 20-point rule ran only in the team's local prototype pipeline; the public Django demo adds a fixed score per upload. Model training, Triton serving and the scoring pipeline are the team's work, uploaded to [`training/`](training/) for the record; my part was the district-level Tableau visualisation and the website. Top Excellence Award of the Multicampus final project.
+> **English summary** — Shared e-scooters are unpopular in Korea mostly because of reckless parking. We first explored Seoul open data (floating population, public-bike usage, towing records, parking zones) to find where parking spaces should go, then **pivoted to judging each return photo**: over six iterations (YOLOv5 → YOLOv8 → Mask R-CNN, 1,429 self-labelled photos) the model learned to locate the *parking area*, the *scooter* and its *wheels* and decide whether the scooter is **standing or fallen, inside or outside** the zone. A rule-based score (up to 20 points) was designed to reward good parking in a **points-and-ranking web service** (Django) — a small gamification loop for a civic problem. The 20-point rule was implemented only in the team's local prototype pipeline, whose function computes the points but returns the models' confidence scores; the public Django demo adds a fixed score per upload. Model training, Triton serving and the scoring pipeline are the team's work, uploaded to [`training/`](training/) for the record; my part was the district-level Tableau visualisation and the website. Top Excellence Award of the Multicampus final project.
 
 ---
 
@@ -123,7 +123,7 @@ flowchart LR
 | 0–10 (부적합) | 4 | 2 |
 | **구역 밖** (적합도 무관) | 4 | 2 |
 
-같은 적합도라면 서 있는 쪽에 2점을 더 주고, 구역 밖은 최저점만 준다. 구역 안에 바르게 세울수록 점수가 커지도록 설계했다. 이 규칙은 팀의 로컬 프로토타입(`training/notebooks/server.ipynb`)에서만 돌렸고, 공개 웹 데모에는 연결하지 않았다(아래 6절).
+같은 적합도라면 서 있는 쪽에 2점을 더 주고, 구역 밖은 최저점만 준다. 구역 안에 바르게 세울수록 점수가 커지도록 설계했다. 이 규칙은 팀의 로컬 프로토타입(`training/notebooks/server.ipynb`)에만 구현했고, 공개 웹 데모에는 연결하지 않았다(아래 6절). 이 노트북의 `yolo_mrcnn` 함수는 규칙에 따른 점수를 계산하지만, 반환하는 값은 모델의 신뢰도 점수다.
 
 ## 6. 웹 서비스
 
@@ -152,7 +152,7 @@ flowchart LR
     D <--> M
 ```
 
-> 저장소 기본 설정은 로컬 실행용 SQLite다. 공개 웹 코드는 판정 모델과 연결되어 있지 않고, 사진을 올릴 때마다 고정 점수(+10)를 쌓는다. 판정 모델 학습, Triton 서빙, 점수 파이프라인은 팀의 작업이며 기록용으로 [`training/`](training/)에 올렸다. 가중치, Triton 설정, 로컬 점수 파이프라인 노트북이 들어 있고, 5절의 20점 규칙은 이 로컬 프로토타입에서만 돌렸다. 자세한 내용은 [training/README.md](training/README.md)에 있다.
+> 저장소 기본 설정은 로컬 실행용 SQLite다. 공개 웹 코드는 판정 모델과 연결되어 있지 않고, 사진을 올릴 때마다 고정 점수(+10)를 쌓는다. 판정 모델 학습, Triton 서빙, 점수 파이프라인은 팀의 작업이며 기록용으로 [`training/`](training/)에 올렸다. 가중치, Triton 설정, 로컬 점수 파이프라인 노트북이 들어 있고, 5절의 20점 규칙은 이 로컬 프로토타입에만 구현했다. 자세한 내용은 [training/README.md](training/README.md)에 있다.
 
 ## 7. 실행 방법
 
